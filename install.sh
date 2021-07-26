@@ -4,7 +4,7 @@
 
 # EXPORT EVERNOTE TO .enex
 # https://github.com/brokensandals/exporteer_evernote_osx
-pip3 install exporteer_evernote_osx
+# pip3 install exporteer_evernote_osx
 
 # CONVERT .enex to .md
 # https://github.com/wormi4ok/evernote2md
