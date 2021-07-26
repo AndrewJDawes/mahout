@@ -1,4 +1,4 @@
-# Mahout
+# mahout
 
 ## Install
 ```
