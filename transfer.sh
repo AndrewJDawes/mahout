@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# Define includes directory
+incd="$(pwd)/inc"
+
 # Include helper functions
-source "$(pwd)/helpers.sh"
+source "$incd/helpers.sh"
 
 # Make sure dependencies have been installed
 if ! command -v evernote2md &> /dev/null || ! command -v sncli &> /dev/null; then
-    source "$(pwd)/install.sh"
+    source "$incd/install.sh"
 fi
 
 # Set export directory from user input as arg
