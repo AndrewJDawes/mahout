@@ -39,3 +39,6 @@ remove_sncli_config() {
     echo "...Removing the temporary .snclirc file"
     rm -rf ~/.snclirc
 }
+sncli_trash_all() {
+    sncli list | awk '{print $1}' | while read key; do echo "...Trashing note: $key"; sncli -k"$key" trash; done
+}
