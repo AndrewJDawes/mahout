@@ -40,5 +40,20 @@ remove_sncli_config() {
     rm -rf ~/.snclirc
 }
 sncli_trash_all() {
-    sncli list | awk '{print $1}' | while read key; do echo "...Trashing note: $key"; sncli -k"$key" trash; done
+    echo "...Syncing with server"
+    # Full server sync
+    sncli sync
+    echo "...Sync complete!"
+    echo "...Trashing notes"
+    # Trash all notes
+    sncli list | awk '{print $1}' | while read key; do echo "...Trashing note: $key"; sncli -k"$key" trash; echo "...Syncing";  sncli sync; done
+}
+sncli_markdown_all() {
+    echo "...Syncing with server"
+    # Full server sync
+    sncli sync
+    echo "...Sync complete!"
+    echo "...Enabling markdown on notes"
+    # Enable markdown on all notes
+    sncli list | awk '{print $1}' | while read key; do echo "...Enabling markdown for note: $key"; sncli -k"$key" markdown; echo "...Syncing"; sncli sync; done
 }

@@ -28,6 +28,9 @@ then
     add_sncli_config
 fi
 
+# Sync Simplenote
+sncli sync
+
 # Glob all files in exports directory - should be directories
 echo "Finding notebooks:"
 # Wrap the dynamic directory in quotes for spaces, leave the glob outside so it evaluates as special character
@@ -55,6 +58,8 @@ do
         json="{\"tags\":[\"$tag\"],\"content\":$(json_escape "$(cat "$markdown_file")")}"
         # Echo tag and markdown as JSON into sncli as stdin
         echo "$json" | sncli import -
+        # Full server sync
+        sncli sync
     done
 done
 
