@@ -1,14 +1,3 @@
-# This does not work - but it's a nice thought
-evernote_export() {
-    # Set up project folder structure
-    mkdir -p "$ES_EXPORT_DIRECTORY"
-    echo "...Creating export directory: $ES_EXPORT_DIRECTORY"
-
-    # Export Evernote as .enex, creating new directories and grouping by notebook
-    echo "...Running Evernote export"
-    # exporteer_evernote_osx export -E -n "$ES_EXPORT_DIRECTORY"
-    # Loop through each folder in the exports directory (grouped by notebook)
-}
 # Echoes a directory name - assumed notebook - which is tag formatted
 directory_to_tag() {
     dirname_basename="$(basename "$1")" 
@@ -56,4 +45,29 @@ sncli_markdown_all() {
     echo "...Enabling markdown on notes"
     # Enable markdown on all notes
     sncli list | awk '{print $1}' | while read key; do echo "...Enabling markdown for note: $key"; sncli -k"$key" markdown; echo "...Syncing"; sncli sync; done
+}
+# Generates space separated tags from directory names
+get_directory_tag_names() {
+    export_directory="$1"
+    notebook_export_directories=("$export_directory"/*)
+    tags=()
+    for notebook_export_directory in "${notebook_export_directories[@]}";
+    do
+        # Test to make sure it's a directory (not default empty glob)
+        [ -d "$notebook_export_directory" ] || continue
+        tag="$(directory_to_tag "$notebook_export_directory")"
+        tags+=("$tag")
+    done
+    for tag in "${tags[@]}"; do echo "$tag"; done | sort | uniq | while read tag; do echo -n " $tag"; done
+}
+# This does not work - but it's a nice thought
+evernote_export() {
+    # Set up project folder structure
+    mkdir -p "$ES_EXPORT_DIRECTORY"
+    echo "...Creating export directory: $ES_EXPORT_DIRECTORY"
+
+    # Export Evernote as .enex, creating new directories and grouping by notebook
+    echo "...Running Evernote export"
+    # exporteer_evernote_osx export -E -n "$ES_EXPORT_DIRECTORY"
+    # Loop through each folder in the exports directory (grouped by notebook)
 }
