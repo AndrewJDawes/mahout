@@ -63,8 +63,34 @@ do
     done
 done
 
+echo "Would you like to enable markdown on all imported notes? [Yn]"
+read -p "[Y]:" yn
+case "$yn" in
+    Nn* )
+        # Don't do anything
+        echo "...Not enabling markdown on all notes!"
+        ;;
+    Yy* | * )
+        # Default
+        echo "...Enabling markdown on all notes!"
+        sncli_markdown_all
+        ;;
+esac
+
 # If we added a temp config file, remove so as not to clutter
 if [ "$temp_snclirc" = true ];
 then
-    remove_sncli_config
+    echo "Would you like to keep the .snclirc file we created? [Yn]"
+    read -p "[N]:" yn
+    case "$yn" in
+        Yy* )
+            # Don't do anything
+            echo "...Keeping the .snclirc file. Protect this file!"
+            ;;
+        Nn* | * )
+            # Default
+            echo "...Removing the .snclirc file"
+            remove_sncli_config
+            ;;
+    esac
 fi
